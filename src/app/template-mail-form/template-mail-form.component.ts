@@ -63,8 +63,10 @@ export class TemplateMailFormComponent implements OnInit {
 
   // Проверяем наличее переменных и записываем их в поле variables
   getVariablesWithText(): void {
-     this.variables = this.form.get('text').value.split('{{{').filter(v => v.includes('}}}')).map(v => v.split('}}}')[0]);
+     const reg = /{{{\w+}}}/g;
+     this.variables = this.form.get('text').value.match(reg).map(v => v.split('{{{')[1].split('}}}')[0])
      this.form.patchValue({variables: this.variables});
+     console.log(this.variables);
 }
   // Загружаем логотип и приводим к формату
   uploadLogo(event: Event): void {
